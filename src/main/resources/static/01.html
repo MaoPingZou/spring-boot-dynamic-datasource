@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>网页实现自定义数据源切换</title>
+    <script src="jquery-3.6.0.js"></script>
+</head>
+<body>
+<div>
+    请选择数据源：
+    <label for="">label</label>
+    <select name="" id="" onchange="dsChange(this.options[this.options.selectedIndex].value)">
+        <option value="请选择">请选择</option>
+        <option value="master">master</option>
+        <option value="slave">slave</option>
+    </select>
+</div>
+<div id="result">
+
+</div>
+
+<div>
+    <button onclick="loadData()">加载数据</button>
+</div>
+
+<script>
+    function dsChange(value) {
+        // 使用post请求，后面跟上对应的值
+        $.post("/dsType", {dsType: value})
+    }
+
+    function loadData() {
+        // 使用get请求，拿到回调的数据直接显示到 id=result的div块中，把拿到的JSON数据转成字符串
+        $.get("/users", function (data){
+           $("#result").html(JSON.stringify(data));
+        })
+    }
+</script>
+
+</body>
+</html>
